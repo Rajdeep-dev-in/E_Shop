@@ -14,12 +14,16 @@ export const productApi = createApi({
         }),
         getProductById: builder.query({
             query: (payload) => `products/${payload}` 
-        })
+        }),
+        getAllProducts: builder.query({
+            query: () => 'products'
+        }),
     })
 })
 
 export const {useGetAllCatagoriesQuery,
     useGetProductsByNameQuery,
-    useGetProductByIdQuery
+    useGetProductByIdQuery,
+    useGetAllProductsQuery,
 
 } = productApi

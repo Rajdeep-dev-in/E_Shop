@@ -1,11 +1,15 @@
 import { NavLink } from "react-router-dom"
 import { Heart, ShoppingCart } from 'lucide-react'
 import { useDispatch, useSelector } from "react-redux"
-import { addIntoWishList, removeIntoWishList } from "../features/wishlistslice"
+import { addIntoCart, addIntoWishList, removeIntoWishList } from "../features/wishlistslice"
 import { toast, ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
+import { FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
-function ProductCard({data , wishListData}){
+
+function ProductCard({data , wishListData, cartListData}){
+    console.log(cartListData, 'cart list')
     const {images, title, price, category, id} = data
     let imageUrl = images[0].slice(2)
     const dispatch = useDispatch()
@@ -28,9 +32,19 @@ function ProductCard({data , wishListData}){
         }
     }
 
+    // add cart
+    
     function addToCart(e){
         e.preventDefault()
-        alert("add to Cart")
+        const data = {
+            imageUrl,
+            title,
+            price,
+            finalPrice: price,
+            id,
+            quantity: 1
+        }
+        dispatch(addIntoCart(data))
     }
     return(
         <>
@@ -44,14 +58,14 @@ function ProductCard({data , wishListData}){
                     <img src={imageUrl} alt={title} className="w-full h-full bg-cover object-cover" />
                 </div>
                 <div
-                    className="p-2 bg-zinc-300 rounded-full absolute top-2 right-2 cursor-pointer bg-transparent hover:bg-gray-200"
+                    className="p-2  rounded-full absolute top-2 right-2 cursor-pointer bg-transparent "
                     onClick={addToWishList}
                 >
                     
-                    {wishListData[findList]?.status === true ? <Heart size={16} color="#d02580" /> : <Heart size={16}/>}
+                    {wishListData[findList]?.status === true ? <FontAwesomeIcon icon={faHeart} color="red"  className=" rounded-full" /> : <Heart size={16}/>}
                 </div>
                 <div
-                    className="p-2 bg-zinc-300 rounded-full absolute top-12 right-2 cursor-pointer bg-transparent hover:bg-gray-200"
+                    className="p-2  rounded-full absolute top-12 right-2 cursor-pointer bg-transparent "
                     onClick={addToCart}
                 >
                     <ShoppingCart size={16} />

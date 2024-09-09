@@ -1,26 +1,48 @@
 import MainButton from './MainButton'
-import {ShoppingCart} from 'lucide-react'
+import {ShoppingCart, Trash2} from 'lucide-react'
+import { NavLink, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { addIntoCart, removeIntoWishList } from '../features/wishlistslice'
+
 function List({imageUrl, title, price, id}){
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
     function handelAddCart(e){
         e.preventDefault()
-        console.log("add to cart")
+        const data = {
+            imageUrl,
+            title,
+            price,
+            finalPrice: price,
+            id,
+            quantity: 1
+        }
+        dispatch(addIntoCart(data))
+        navigate('/cart')
+
+    }
+    function clearWiseList(){
+        dispatch(removeIntoWishList(id))
     }
     return(
         <>
             <div
                     className="flex justify-between items-center px-5 py-3 bg-green-200 text-green-700 my-3"
                 >
-                    <h3
+                    <NavLink
+                        to={`/details/${id}`}
                         className="text-2xl font-bold "
                     >
                         {title}
-                    </h3>
+                    </NavLink>
                     <p
                         className="text-lg"
                     >
                         ${price}
                     </p>
-                    <div
+                    <NavLink
+                        to={`/details/${id}`}
                         className="h-10 w-10 bg-gray-500"
                     >
                         <img 
@@ -28,6 +50,9 @@ function List({imageUrl, title, price, id}){
                             alt={title}
                             className='w-full h-full bg-cover object-cover'
                         />
+                    </NavLink>
+                    <div>
+                        <Trash2 size={20} onClick={clearWiseList} className=' cursor-pointer text-red-600'/>
                     </div>
                     <MainButton
                         className="bg-yellow-400 text-zinc-700 font-bold rounded-lg flex justify-center items-center gap-x-3 px-3 hover:bg-yellow-500"

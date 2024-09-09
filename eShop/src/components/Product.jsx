@@ -1,16 +1,34 @@
 import MainButton from "./MainButton"
 import { Heart, ShoppingCart } from "lucide-react"
+import {useDispatch} from 'react-redux'
+import { addIntoWishList, addIntoCart } from "../features/wishlistslice"
 function Product({data}){
     const {title, price, id, images, description} = data
     let imageUrl = images[0].slice(2)
+    const dispatch = useDispatch()
     function addProductToWishList(e){
         e.preventDefault()
-        alert("Item Added to the wishlist")
+        const data = {
+            imageUrl,
+            title,
+            price,
+            id,
+            status: true
+        }
+        dispatch(addIntoWishList(data))
     }
 
     function addProductToCart(e){
         e.preventDefault()
-        alert("Item added to cart")
+        const data = {
+            imageUrl,
+            title,
+            price,
+            finalPrice: price,
+            id,
+            quantity: 1
+        }
+        dispatch(addIntoCart(data))
     }
     return(
         <>
@@ -41,14 +59,14 @@ function Product({data}){
                     </p>
                     <div className="flex justify-start items-start my-3 gap-2">
                         <MainButton
-                            className=" bg-red-500 text-white font-bold rounded-lg flex justify-center items-center gap-x-3 px-3 hover:bg-red-600"
+                            className=" bg-red-500 text-white font-bold rounded-lg flex justify-center items-center gap-x-3 px-3 py-2 hover:bg-red-600"
                             onClick={addProductToWishList}
                         >
                             <Heart size={20}/>
                             Add To WishList
                         </MainButton>
                         <MainButton 
-                            className="bg-yellow-400 text-zinc-700 font-bold rounded-lg flex justify-center items-center gap-x-3 px-3 hover:bg-yellow-500"
+                            className="bg-yellow-400 text-zinc-700 font-bold rounded-lg flex justify-center items-center gap-x-3 px-3 py-2 hover:bg-yellow-500"
                             onClick={addProductToCart}
                         >
                             <ShoppingCart size={20} />

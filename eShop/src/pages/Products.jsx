@@ -1,18 +1,15 @@
-import ProductCard from "../components/ProductCard";
-import Sidebar from "../components/Sidebar";
-import { useParams } from "react-router-dom";
-import { useGetProductsByNameQuery } from "../services/productApi";
+import { useGetAllProductsQuery } from "../services/productApi"
 import { LineWave } from "react-loader-spinner";
+import ProductCard from "../components/ProductCard";
 import { useSelector } from "react-redux";
 
-function AllProducts() {
-  const { id } = useParams();
-  const { data, isLoading, isError } = useGetProductsByNameQuery(id);
-  const wishList = useSelector((state) => state.wishList.wishBox)
-  const cartList = useSelector((state) => state.wishList.cartBox)
-  // console.log(cartList, 'cart 1')
 
-  return (
+function Products(){
+    const {data, isLoading, isError} = useGetAllProductsQuery()
+    const wishList = useSelector((state) => state.wishList.wishBox)
+    const cartList = useSelector((state) => state.wishList.cartBox)
+    console.log(cartList, 'cart')
+    return(
     <>
       <main className="flex h-screen">
         {isLoading ? (
@@ -34,7 +31,6 @@ function AllProducts() {
           </>
         ) : (
           <>
-            <Sidebar />
             <div className="w-full h-full  px-5">
               <div className="flex justify-start items-start gap-x-4 gap-y-8 mt-5 flex-wrap">
                 {data?.map((item) => {
@@ -49,4 +45,4 @@ function AllProducts() {
   );
 }
 
-export default AllProducts;
+export default Products
