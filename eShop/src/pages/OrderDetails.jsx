@@ -1,9 +1,30 @@
 import { useSelector } from "react-redux"
+import MainButton from "../components/MainButton";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addOrderList } from "../features/orderslice";
 
 
 function OrderDetails(){
     const userData = useSelector((state) => state.user?.userDetails)
+    const cart = useSelector((state) => state.wishList?.cartBox)
+    const totalPrice = useSelector((state) => state.wishList?.totalPrice);
+    console.log(cart, 'cart box');
     console.log(userData, 'user')
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+
+    function handelOrder(e){
+        e.preventDefault()
+        const data = {
+            orderId: Date.now(),
+            totalPrice,
+            payment: "Cash"
+        }
+        console.log(data, 'order data')
+        dispatch(addOrderList(data))
+        navigate("/success")
+    }
     return(
         <>
             <div
@@ -36,32 +57,39 @@ function OrderDetails(){
                         <div
                             className="flex flex-col gap-3"
                         >
-                            <div
+                            {
+                                cart.map((cart) => {
+                                    return(
+                                        <div
+                                        key={cart.id}
                                 className="flex justify-start items-center flex-wrap gap-3"
                             >
                                 <p
                                     className="font-bold text-green-800 text-xl flex justify-start items-start flex-wrap"
                                 >
-                                    Product Name
+                                    {cart.title}
                                 </p>
                                 <p>
-                                    4
+                                    {cart.quantity}
                                 </p>
                                 <p>
-                                    $50
+                                    ${cart.price}
                                 </p>
                                 <p
                                     className="text-zinc-700 font-bold"
                                 >
-                                    $200
+                                    ${cart.finalPrice}
                                 </p>
                             </div>
+                                    )
+                                })
+                            }
 
                         </div>
 
                     </div>
                     <div
-                        className="px-2 py-2 flex justify-end items-center"
+                        className="px-2 py-2 flex justify-end items-center "
                     >
                         <div
                             className="bg-green-300 text-green-600 flex justify-between"
@@ -69,9 +97,20 @@ function OrderDetails(){
                             <p
                                 className="text-zinc-700 font-bold"
                             >
-                                Total Price : $200
+                                Total Price : ${totalPrice}
                             </p>
                         </div>
+                        
+                    </div>
+                    <div
+                        className="px-2 py-2 flex justify-end items-center"
+                    >
+                        <MainButton
+                            onClick={handelOrder}
+                            className="px-2 py-1 bg-yellow-300 text-zinc-700 font-bold hover:bg-yellow-400 rounded-md"
+                        >
+                            Place Order & Continue
+                        </MainButton>
                     </div>
                 </div>
             </div>

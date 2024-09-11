@@ -12,6 +12,8 @@ import Products from './pages/Products.jsx'
 import Login from './pages/Login.jsx'
 import SignUp from './pages/SignUp.jsx'
 import OrderDetails from './pages/OrderDetails.jsx'
+import Success from './pages/Success.jsx'
+import OrderStatus from './pages/OrderStatus.jsx'
 
 
 
@@ -27,6 +29,8 @@ const router = createBrowserRouter(
       <Route path='login' element={<Login />}/>
       <Route path='register' element={<SignUp />}/>
       <Route path='order' element={<OrderDetails />}/>
+      <Route path='success' element={<Success />}/>
+      <Route path='status' element={<OrderStatus />}/>
     </Route>
   )
 )

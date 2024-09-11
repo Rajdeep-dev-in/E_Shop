@@ -55,7 +55,7 @@ function List({imageUrl, title, price, id}){
                         <Trash2 size={20} onClick={clearWiseList} className=' cursor-pointer text-red-600'/>
                     </div>
                     <MainButton
-                        className="bg-yellow-400 text-zinc-700 font-bold rounded-lg flex justify-center items-center gap-x-3 px-3 hover:bg-yellow-500"
+                        className="bg-yellow-400 text-zinc-700 font-bold rounded-lg flex justify-center items-center gap-x-3 px-2 py-1 hover:bg-yellow-500"
                         onClick={handelAddCart}
                     >
                         <ShoppingCart size={20} />
